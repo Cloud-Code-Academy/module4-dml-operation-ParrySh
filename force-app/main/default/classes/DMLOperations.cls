@@ -31,14 +31,14 @@ public with sharing class DMLOperations {
      */
     public static Id insertNewAccount() {
         // Create a new Account instance
-        Account acc = new Account (Name='New Account');
+        Account newAccount = new Account ();
         
         // Set some fields on the Account
-
+        newAccount.Name = 'Account_' + String.valueOf(Math.random());
         // Insert the Account into the database
-        insert acc;
+        insert newAccount;
         // Return the Id of the newly created Account
-        return null;
+        return newAccount.Id;
     }
 
     /**
