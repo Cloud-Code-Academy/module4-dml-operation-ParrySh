@@ -1,4 +1,4 @@
-/**
+/*
  * The DMLOperationsTest class is specifically designed to test the functionality of the methods present in the DMLOperations class.
  * This test class contains several test methods, each one designed to validate individual methods in the DMLOperations class, ensuring their correct behavior.
  * The Salesforce Assert class is employed extensively in these test methods to assert and validate the expected outcomes.
@@ -159,7 +159,6 @@ public with sharing class DMLOperationsTest {
     
         // Call the method to test
         DMLOperations.upsertOpportunities(accountName, oppNames);
-    
         // Retrieve the Account from the database
         Account retrievedAcc = [SELECT Id, Name FROM Account WHERE Name = :accountName];
         
@@ -215,6 +214,8 @@ public with sharing class DMLOperationsTest {
         System.assertEquals('Updated Account', updatedAccount.Description, 'Account description should match');
 	}
 
+
+
     @IsTest
 	static void testUpsertAccountsWithContacts() {
 		Account testAccount = new Account(Name = 'Doe');
@@ -225,9 +226,9 @@ public with sharing class DMLOperationsTest {
 			new Contact(LastName = 'Smith', FirstName = 'Jane')
 		};
 
-		Test.startTest();
+		Test.startTest() ;
 		DMLOperations.upsertAccountsWithContacts(testContacts);
-		Test.stopTest();
+		Test.stopTest() ;
 
 		List<Account> accounts = [SELECT Id FROM Account];
 		System.assertEquals(2, accounts.size(), 'Two accounts should be created');
@@ -243,7 +244,7 @@ public with sharing class DMLOperationsTest {
 			System.assertEquals(c.LastName, c.Account.Name, 'Contact last name should match Account name');
 		}
 	}
-    
+
     @IsTest
     static void testInsertAndDeleteLeads() {
         // Prepare the Lead names
