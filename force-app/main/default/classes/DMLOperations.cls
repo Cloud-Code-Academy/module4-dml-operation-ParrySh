@@ -196,7 +196,7 @@ public with sharing class DMLOperations {
         upsert opportunitiesToUpsert;
     }
 }
-    
+
     /**
      * Question 9
 	 * Upserts an Account with the specified name.
@@ -206,29 +206,30 @@ public with sharing class DMLOperations {
 	 * @return The Account that was upserted.
 	 */
 	public static Account upsertAccount(String accountName) {
-		Account account;
-        
+        Account account;
         // Query for the Account
-		try {
-            account = [SELECT Id, Name, Description FROM Account WHERE Name = :accountName LIMIT 1];
+        List<Account> accounts = [SELECT Id, Name, Description FROM Account WHERE Name = :accountName LIMIT 1];
 		// if the Account exists, update the description
+        if (!accounts.isempty()) {
+            account = accounts[0];
             account.Description = 'Updated Account';
-        } 
-        catch (System.QueryException e) {
+        }
+        // if the Account does not exist, create a new one
+        else {
             account = new Account(Name = accountName, Description = 'New Account');
         }
 		// Upsert the Account
         upsert account;
 		return account;
 	}
-// can't seem to figure out why this test code fails or is skipped. 
-//Test.startTest() keeps coming up. I made adjustments and spent time. Also asked in Slack. Might ask in offce hours later this week.
+// can't seem to figure out why this test code fails or is skipped.
+//Test.startTest() keeps coming up. I made adjustments and spent time. Also asked in Slack. Might ask in office hours later this week.
     /**
      * Question 10
 	 * Manage the association between Contacts and Accounts
 	 * Ensure that for each Contact in the provided list, there is a corresponding Account Name that matches the Contact's last name.
 	 * If such an Account does not exist, the method creates it; if it does, the method ensures the Contact is associated with it. (Hint: use previous upsertAccount method - this may cause bad practices but for learning purposes it's okay.)
-     * Example Contact.LastName = 'Doe' Link to Account.Name = 'Doe' 
+     * Example Contact.LastName = 'Doe' Link to Account.Name = 'Doe'
      * Example Contact.LastName = 'Jane' Link to Account.Name = 'Jane'
 	 * @param contactsToUpsert List of Contacts to be upserted and linked to accounts.
 	 */

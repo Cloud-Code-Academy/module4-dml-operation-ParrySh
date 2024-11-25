@@ -83,7 +83,6 @@ public with sharing class DMLOperationsTest {
         // Create a test Account first
         Account testAcc = new Account(Name = 'Test Account');
         insert testAcc;
-        
         // Create a test Opportunity
         Opportunity testOpp = new Opportunity(Name = 'Test Opportunity', AccountId = testAcc.Id, StageName = 'Prospecting', CloseDate = Date.today().addMonths(3));
         insert testOpp;
@@ -194,9 +193,9 @@ public with sharing class DMLOperationsTest {
 		String accountName = 'Test Account';
 
 		// Test creating a new account
-		Test.startTest();
+		System.Test.startTest();
 		Account upsertedAccount = DMLOperations.upsertAccount(accountName);
-
+        
 		// Verify that the account was created
 		System.assertNotEquals(null, upsertedAccount.Id, 'Account should be created with an Id');
 		System.assertEquals(accountName, upsertedAccount.Name, 'Account name should match');
@@ -207,7 +206,7 @@ public with sharing class DMLOperationsTest {
 		upsertedAccount.Name = updatedAccountName;
 
 		Account updatedAccount = DMLOperations.upsertAccount(updatedAccountName);
-		Test.stopTest();
+		System.Test.stopTest();
 
 		// Verify that the account was updated
 		System.assertEquals(updatedAccount.Id, updatedAccount.Id, 'Account Id should remain the same after update');
@@ -226,9 +225,9 @@ public with sharing class DMLOperationsTest {
 			new Contact(LastName = 'Smith', FirstName = 'Jane')
 		};
 
-		Test.startTest() ;
+		System.Test.startTest();
 		DMLOperations.upsertAccountsWithContacts(testContacts);
-		Test.stopTest() ;
+		System.Test.stopTest();
 
 		List<Account> accounts = [SELECT Id FROM Account];
 		System.assertEquals(2, accounts.size(), 'Two accounts should be created');
